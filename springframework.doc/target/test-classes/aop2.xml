@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+
+  <bean name="myTarget" class="springframework.doc.aop.example.aspect.target.impl.MyTargetImpl"></bean>
+   <aop:config>
+    <aop:pointcut expression="execution(**	 springframework..MyTargetImpl.perform(..))" id="be"/>
+     
+    <aop:aspect
+     ref="myAspect"
+    >
+     <!-- <aop:before method="aspect2" pointcut-ref="be"/> -->
+     <!--也可以引用java类中定义的切点，就算该类没有@aspect注解  -->
+    <aop:before method="aspect2" pointcut="springframework.doc.aop.example.aspect.MyAspect2.pointCut()"/>
+    <aop:around method="aspect1" pointcut="  target(springframework.doc.aop.example.aspect.target.MyTarget) and
+    args(arg1,..)
+    and (@target(myAnnotation1) or @annotation(myAnnotation1))  
+    and this(parent)
+    "
+     arg-names="arg1,myAnnotation1,parent"
+    />
+    <aop:declare-parents types-matching="springframework..target.impl.*" implement-interface="springframework.doc.aop.example.aspect.introduce.MyIntroduce" default-impl="springframework.doc.aop.example.aspect.introduce.impl.MyIntroduceImpl"/>
+    </aop:aspect>
+      
+   </aop:config>
+   <bean  id="myAspect" class="springframework.doc.aop.example.aspect.MyAspect"></bean>
+    <bean class="springframework.doc.aop.example.aspect.introduce.impl.MyIntroduceImpl"></bean>
+</beans>

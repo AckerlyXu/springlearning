@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
+<!--commponet-scan默认就包括了annotationConfig  -->
+<!-- 方法一 xml通过componentscan的方式导入java-configuration -->
+ <!-- <context:component-scan base-package="springframework.doc.scan"></context:component-scan> -->
+ 
+ 
+ <!--方法二，把configuration当成一个bean注册到容器中，但是要注意需要enable annotation-config，不然不会读取configuration的注解  -->
+ <context:annotation-config></context:annotation-config>
+  <bean class="springframework.doc.scan.FactoryMethodComponent"></bean>
+</beans>

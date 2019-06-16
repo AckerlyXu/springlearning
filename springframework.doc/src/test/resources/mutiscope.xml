@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+  <bean id="myPrototypeBean" class="springframework.doc.mutiscope.MyPrototypeBean" scope="prototype"></bean>
+  
+  <!--由于single的对象只初始化一次，所以如果它依赖于prototype的对象，那么这个对象很难每次都是不同的对象，
+  这里需要使用lookup-method节点  -->
+  <bean id="mySingleton" class="springframework.doc.mutiscope.MySingleBean">
+    <lookup-method name="createPrototype" bean="myPrototypeBean" />
+  </bean>
+</beans>

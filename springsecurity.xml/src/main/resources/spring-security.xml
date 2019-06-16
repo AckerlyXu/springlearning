@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+xmlns:beans="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+		https://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/security
+		https://www.springframework.org/schema/security/spring-security.xsd">
+	<!-- 设置登录页能够匿名访问 -->
+	<!--  <http pattern="/login" security="none" /> -->
+	
+	<http>
+
+	 <!-- 设置登陆页面能够匿名访问但是需要设置use-expressions="false" ，用了这个其它el表达式也不能使用，见 -->
+	 <!--  <intercept-url pattern="/login" access="IS_AUTHENTICATED_ANONYMOUSLY" />  -->
+	<!-- https://stackoverflow.com/questions/33362315/failed-to-evaluate-expression-is-authenticated-anonymously-spring-4 -->
+       <intercept-url pattern="/user/**"  access="hasRole('ROLE_USER')" /> 
+	  <!-- 自定义登陆页面 -->
+<!-- 	 <form-login login-page="/login" default-target-url="/index" always-use-default-target="true" /> -->
+	 <!-- always-use-default-target的含义是不管returnUrl直接重定向到default-target-url -->
+	 
+	 <form-login default-target-url="/index" authentication-failure-url="/user/failure"  />
+	 <logout/>
+	 
+	<session-management >
+	 <concurrency-control max-sessions="1" error-if-maximum-exceeded="true"/>
+	</session-management>
+	</http>
+	
+	<beans:bean name="bcryptEncoder"
+	 class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"
+	></beans:bean>
+	
+	<authentication-manager >
+	
+	<authentication-provider>
+	<password-encoder ref="bcryptEncoder"></password-encoder>
+	  <user-service >
+	
+	  <user name="ackerly" authorities="ROLE_USER,ROLE_ADMIN" password="$2a$10$BNoNnZBWe5XFBe3Wof2f1umtRGXHnWzvI2PU7jJP0891ulfYAdPHK" />
+	   <user name="ackerly1" authorities="ROLE_USER" password="$2a$10$BNoNnZBWe5XFBe3Wof2f1umtRGXHnWzvI2PU7jJP0891ulfYAdPHK" />
+	   <user name="ackerly2" authorities="ROLE_USER,ROLE_ADMIN" password="{noop}123" />
+	  </user-service>
+	</authentication-provider>
+	</authentication-manager>
+	 
+	 <!-- 配置enable secured 和 PreAuthorize注解  -->
+	 <global-method-security secured-annotations="enabled" pre-post-annotations="enabled">
+	 <!-- 配置一个切点 ，切点的配置也和url的配置一样采用顺序优先的匹配原则-->
+	  <protect-pointcut access="ROLE_USER" expression="execution(* springsecurity..*Service.*(..))"/>
+	 </global-method-security>
+</beans:beans>
+
+
+<!--
+要使用IS_AUTHENTICATED_ANONYMOUSLY需要禁用spring el expression
+<http>
+<intercept-url pattern="/login.jsp*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+<intercept-url pattern="/**" access="ROLE_USER" />
+<form-login login-page='/login.jsp'/>
+</http>
+
+  -->

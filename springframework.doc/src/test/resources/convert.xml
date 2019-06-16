@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+  <bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+      <property name="customEditors">
+       <map>
+          <entry key="springframework.doc.convert.ExoticType" value="springframework.doc.convert.ExoticTypeEditor"></entry>
+       </map>
+      </property>
+      <property name="propertyEditorRegistrars">
+       <list>
+         <ref bean="registrar"/>
+       </list>
+      </property>
+  </bean>
+  <bean id="exotic" class="springframework.doc.convert.DependsonExotic">
+     <property name="exoticType" value="abcde"></property>
+  </bean>
+
+<bean name="registrar" class="springframework.doc.convert.CustomPropertyEditorRegistrar"></bean>
+</beans>
+
+
+<!--第一种注册自定义PropertyEditor的方式  -->
+<!-- <bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+      <property name="customEditors">
+       <map>
+          <entry key="springframework.doc.convert.ExoticType" value="springframework.doc.convert.ExoticTypeEditor"></entry>
+       </map>
+      </property>
+      
+  </bean>
+  <bean id="exotic" class="springframework.doc.convert.DependsonExotic">
+     <property name="exoticType" value="abcde"></property>
+  </bean> -->
+

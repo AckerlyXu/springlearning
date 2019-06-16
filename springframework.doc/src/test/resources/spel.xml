@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+ <bean name="thingTwo" class="springframework.doc.construct.ThingTwo">
+     <constructor-arg name="str" value="#{ systemProperties['java.runtime.name']}"></constructor-arg>
+      <constructor-arg name="integer" value="#{ T(java.lang.Math).random()*100}"></constructor-arg>
+ </bean>
+  
+  <!--在spel中引用另一个bean  -->
+  <bean class="springframework.doc.model.Inventor">
+   <property name="name" value="#{ thingTwo.info}"></property>
+  </bean>
+</beans>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<title>Insert title here</title>
+<link rel="stylesheet" th:href="@{/css/stsm.css}">
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" >
+</head>
+<body>
+	<div style="text-align: center;"  class="col-12"
+		th:if="${#lists.isEmpty(allSeedStarters)}">没有数据</div>
+	<div  class="col-12"
+		th:if=" not ${#lists.isEmpty(allSeedStarters)}">
+		<h2 th:text="#{title.list}">List of Seed Starters</h2>
+		<table>
+			<thead>
+				<tr>
+					<th th:text="#{seedstarter.datePlanted}">Date Planted</th>
+					<th th:text="#{seedstarter.covered}">Covered</th>
+					<th th:text="#{seedstarter.type}">Type</th>
+					<th th:text="#{seedstarter.features}">Features</th>
+					<th th:text="#{seedstarter.rows}">Rows</th>
+
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="prod : ${allSeedStarters}">
+					<td>[[${{prod.datePlanted}}]]</td>
+					<td th:text="|#{bool.__${prod.covered}__}|"></td>
+					<td th:text="${prod.type.getName()}"></td>
+					<td 
+						th:text="${
+						#strings.arrayJoin(
+			       #messages.arrayMsg(   #strings.arrayPrepend(prod.features,'seedstarter.feature.')
+			      ),',')}"></td>
+					<td>
+						<table>
+							<tbody>
+								<tr th:each="row : ${prod.rows}">
+									<td th:text="${rowStat.count}"></td>
+									<td th:text="${row.variety.name}"></td>
+									<td th:text="${row.seedsPerCell}"></td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div>
+		<h2 th:text="#{title.new}">add new</h2>
+		<form th:action="@{/seedstartermng}" method="post"
+			th:object="${seedStarted}">
+			<fieldset></fieldset>
+			<div>
+				<label> <span th:text="#{seedstarter.datePlanted}"></span> <input
+					th:field="*{datePlanted}">
+				</label>
+				<div th:if=" not ${#fields.hasErrors('all')}">没有错误</div>
+                  <ul th:if="${#fields.hasErrors('all')}">
+                  <li th:each="err: ${#fields.errors('datePlanted')}" th:text="${err}"></li>
+                  </ul>
+			</div>
+			<div>
+				<label th:for="${#ids.next('covered')}"
+					th:text="#{seedstarter.covered}"></label> <input type="checkbox"
+					th:field="*{covered}">
+			</div>
+			<div><strong>features</strong></div>
+			<ul>
+			
+				<li th:each="fea : ${allFeatures}">
+				
+				<input type="checkbox"
+					th:field="*{features}" th:value="${fea}"> <label
+					th:for="${#ids.prev('features')}"
+					th:text="#{${'seedstarter.feature.'+fea}}"></label></li>
+
+			</ul>
+
+			<!--    <ul>
+	     <li th:each="ty: ${allTypes}">
+	         <input type="radio" th:field="*{type}" th:value="${ty}">
+	         <label th:for="${#ids.prev('type')}" th:text="#{'seedstarter.type.'+${ty}}">wireframe</label>
+	     </li>
+	     </ul> -->
+
+			<select th:field="*{type}">
+				<option th:each="ty: ${allTypes}" th:value="${ty}"
+					th:text="#{${'seedstarter.type.'+ty}}"></option>
+			</select>
+   <div th:text="*{rows.size()}"></div>
+<div th:if="*{#lists.isEmpty(rows)} or *{rows.size()==0} " >沒有數據</div>
+			<table>
+				<thead>
+					<tr>
+						<th th:text="#{seedstarter.rows.head.rownum}">Row</th>
+						<th th:text="#{seedstarter.rows.head.variety}">Variety</th>
+						<th th:text="#{seedstarter.rows.head.seedsPerCell}">Row</th>
+						<th>
+							<button type="submit" name="addRow"  class="btn btn-primary btn-sm" 
+								th:text="#{seedstarter.row.add}">Add Row</button>
+						</th>
+					</tr>
+				</thead>
+				
+				<tbody  >
+				<th:block th:if="*{#lists.isEmpty(rows)} or *{rows.size()==0} " >
+				<tr ><td colspan="4">沒有數據</td></tr>
+				</th:block>
+				      <th:block >
+					<tr th:each="row,rowStat : *{rows}">
+						<td th:text="${rowStat.count}">1</td>
+				
+					<td><select th:field="*{rows[__${rowStat.index}__].variety.id}" >
+							<option th:each="var : ${allVarieties}" th:value="${var.id}"
+								th:text="${var.name}"></option>
+					</select></td>
+					<td><input type="text"
+						th:field="*{rows[__${rowStat.index}__].seedsPerCell}"></td>
+					<td>
+						<button type="submit" name="removeRow"  class="btn btn-primary btn-sm" th:value="${rowStat.index}"
+							th:text="#{seedstarter.row.remove}">remove row</button>
+					</td>
+						</tr>
+						
+						</th:block>
+				</tbody>
+			</table>
+		</form>
+		
+	</div>
+</body>
+</html>

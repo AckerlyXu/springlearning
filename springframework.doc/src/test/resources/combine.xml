@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+   <import resource="classpath:dao.xml"/><!-- 如果xml在文件夹中，需要用/分隔路径，而不是用. -->
+ <import resource="classpath:service.xml"/>
+ <import resource="construct.xml"></import>
+ 
+ <!--定义一个工厂类，以及它的静态工厂方法，这个bean是调用工厂方法后返回的对象  -->
+  <bean id="product" class="springframework.doc.factory.MyFactory" factory-method="getProcuct">
+  <!--如果需要给静态工厂方法传参数，可以通过constructor-arg标签  -->
+     <constructor-arg  value="potato"></constructor-arg>
+     <constructor-arg value="5"></constructor-arg>
+  </bean>
+  
+  
+  <!--实例化一个工厂类  -->
+    <bean id="factory" class="springframework.doc.factory.MyFactory"  ></bean>
+    <!-- 调用实例化后的工厂类的getItem方法来创建一个对象 -->
+    <bean id="fItemDao" factory-bean="factory" factory-method="getItem"></bean>
+     <!-- 调用实例化后的工厂类的getService方法来创建一个对象 -->
+       <bean id="fPetService" factory-bean="factory" factory-method="getService"></bean>
+</beans>

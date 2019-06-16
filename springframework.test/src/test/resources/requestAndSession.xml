@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+
+  <bean id="loginAction" class="springframework.test.sessionandrequest.LoginAction" scope="request">
+    <property name="password" value="#{ request.getParameter('password')}"></property>
+    <property name="username" value="#{ request.getParameter('username')}"></property>
+      <aop:scoped-proxy />
+   </bean>
+    <bean class="springframework.test.sessionandrequest.SimpleUserService" >
+     <property name="loginAction" ref="loginAction"></property>
+     <property name="userPreference" ref="userPreference"></property>
+    </bean>
+    
+      <bean id="userPreference" class="springframework.test.sessionandrequest.UserPreference" scope="session">
+    <property name="product" value="#{ session.getAttribute('product')}"></property>
+   
+      <aop:scoped-proxy />
+   </bean>
+</beans>

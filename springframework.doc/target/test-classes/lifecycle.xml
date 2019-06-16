@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	default-init-method="init"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+	<!-- 	default-init-method可以设置所有bean的初始化回调方法 -->
+<!-- init-method代表bean初始化完以后的回调  -->
+   <bean id="lifecycleBean" class="springframework.doc.lifecycle.LifeCycleBean" init-method="init" destroy-method="destory" >
+     <property name="name" value="lifecycle"></property>
+   </bean>
+  
+   <bean id="mypostprocessor" class="springframework.doc.lifecycle.MyProcessorBean"></bean>
+   
+    <context:annotation-config></context:annotation-config>
+</beans>

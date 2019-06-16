@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<bean id="thingTwo" class="springframework.doc.construct.ThingTwo">
+  <!--如果类型相同，或者可以互相转化，就会根据顺序依次注入  -->
+<!--   <constructor-arg type="int" value="4"></constructor-arg>
+     <constructor-arg  type="java.lang.String" value="3str"></constructor-arg> -->
+     
+     
+     <!--可以通过指定type来告诉spring 类型  -->
+ <!--   <constructor-arg type="int" value="4"></constructor-arg>
+     <constructor-arg  type="java.lang.String" value="3str"></constructor-arg> -->
+     
+     <!--在类型相同的情况下，如果要控制注入的顺序，可以通过index属性指定  -->
+     <!-- <constructor-arg  index="1" value="4"></constructor-arg>
+     <constructor-arg   index="0" value="3"></constructor-arg> -->
+     
+     <!--也可以通过属性名的方式注入  -->
+     <constructor-arg  name="integer" value="4"></constructor-arg>
+     <constructor-arg   name="str" value="3"></constructor-arg> 
+ </bean>
+<!-- <bean id="thingThree" class="springframework.doc.construct.ThingThree"></bean> -->
+   <bean id="thingOne" class="springframework.doc.construct.ThingOne">
+           <!--在构造函数参数类型不同的情况下,默认会根据类型注入跟顺序没有关系  -->
+         <!--   <constructor-arg  ref="thingThree"> </constructor-arg> -->
+         <constructor-arg>
+         <!-- 也可以在constructor-arg或者property内部注入bean,而不引用外部的bean -->
+           <bean class="springframework.doc.construct.ThingThree"></bean>
+         </constructor-arg>
+           <constructor-arg ref="thingTwo"></constructor-arg>
+   </bean>
+</beans>

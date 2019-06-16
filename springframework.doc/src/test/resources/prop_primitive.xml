@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+ 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+<!--   <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+   <property name="location" value="classpath:datasource.properties">
+      
+   </property>
+  </bean>
+   -->
+   
+    <context:annotation-config ></context:annotation-config>
+    <context:property-placeholder location="classpath:datasource.properties"  order="2"/>
+    <context:property-override location="classpath:override.properties" order="1"/>
+   <bean   name="datasource,puredatasource"
+     class="springframework.doc.prop.primitive.PureDatasource"
+     p:driverClassName="${drivername}"
+     p:url="${url}"
+     p:username="${username}"
+     p:password="${password}"
+     p:extra="extra"
+   >
+     <property name="props" >
+     <!--  可以这样注入  -->
+          <!--  <value>
+              jdbc.driver.className=com.mysql.jdbc.Driver
+            jdbc.url=jdbc:mysql://localhost:3306/mydb
+           </value> -->
+           <props>
+            <prop key="jdbc.driver.className">com.mysql.jdbc.Driver</prop>
+            <prop key="jdbc.url">jdbc:mysql://localhost:3306/mydb</prop>
+           </props>
+     </property>
+   </bean>
+     <bean name="myCollection" class="springframework.doc.prop.primitive.MyCollections">
+      <!--   <property name="list">
+          <list>
+            <value>hello</value>
+            <ref bean="datasource" />
+            <bean class="springframework.doc.construct.ThingThree"></bean>
+          </list>
+        </property> -->
+         <property name="list" value="#{{1,2,3}}"></property>
+        <property name="set">
+        
+        
+        <set>
+        <value>hello</value>
+            <ref bean="datasource" />
+            <bean class="springframework.doc.construct.ThingThree"></bean>
+            </set>
+        </property>
+        
+        <property name="map">
+          <map>
+            <entry>
+            <!-- key和value都是复杂类型 -->
+               <key >
+                 
+                <bean class="springframework.doc.construct.ThingThree"></bean>
+               </key>
+               
+               <bean class="springframework.doc.construct.ThingThree"></bean>
+            </entry>
+            <entry key="key" value-ref="datasource"></entry>
+          </map>
+        </property>
+     </bean>
+</beans>

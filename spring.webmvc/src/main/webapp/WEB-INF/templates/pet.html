@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+   <form  th:object="${pet}" method="post"  >
+   你
+        <input name="name" th:value="*{name}" /><br>
+          <input name="age" th:value="*{age}" /><br>
+            <input name="ownerId" th:value="*{ownerId}" /><br>
+              <input name="petId" th:value="*{petId}" /><br>
+              <input type="submit" value="submit" />
+   </form>
+</body>
+</html>

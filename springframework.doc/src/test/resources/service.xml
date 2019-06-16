@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+  <bean  id="petStoreService"  name="alias1;alias2,alias3 alias4" class="springframework.doc.service.impl.PetStoreServiceImpl">
+      <!--name能个一个bean多个名称,用; , 逗号 或者空格分隔多个名称  -->
+      <property name="itemDao" ref="itemDao"></property>
+      <property name="accountDao" ref="accountDao"></property>
+  </bean>
+  <!-- 也可以用alias节点给bean起别名 -->
+  <alias name="alias2" alias="alias5"/>
+</beans>

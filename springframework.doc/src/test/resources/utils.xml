@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
+   
+   <bean id="inventor" class="springframework.doc.model.Inventor">
+    <property name="name">  
+       <util:constant static-field="springframework.doc.model.Inventor.MIKE" />
+    </property>
+   </bean>
+   <bean id="enumContainer" class="springframework.doc.model.EnumContainer">
+   <!--如果属性类型是枚举类型，可以直接写枚举的名称 ，而不需要额外的转换 -->
+    <property name="color" value="BLUE"></property>
+   </bean>
+   
+   <util:property-path id="color" path="enumContainer.color"/>
+   
+   <bean class="springframework.doc.prop.primitive.PureDatasource">
+    <property name="props" >
+       <util:properties location="datasource.properties"></util:properties>
+    </property>
+   </bean>
+</beans>

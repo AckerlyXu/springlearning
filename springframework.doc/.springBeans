@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beansProjectDescription>
+	<version>1</version>
+	<pluginVersion><![CDATA[3.9.5.201807030714-RELEASE]]></pluginVersion>
+	<configSuffixes>
+		<configSuffix><![CDATA[xml]]></configSuffix>
+	</configSuffixes>
+	<enableImports><![CDATA[false]]></enableImports>
+	<configs>
+		<config>src/test/resources/dao.xml</config>
+		<config>src/test/resources/service.xml</config>
+		<config>src/test/resources/combine.xml</config>
+		<config>src/test/resources/construct.xml</config>
+		<config>src/test/resources/prop_primitive.xml</config>
+		<config>src/test/resources/mutiscope.xml</config>
+		<config>src/test/resources/lifecycle.xml</config>
+		<config>src/test/resources/relationship.xml</config>
+		<config>src/test/resources/quality.xml</config>
+		<config>src/test/resources/scan.xml</config>
+		<config>src/test/resources/convert.xml</config>
+		<config>src/test/resources/spel.xml</config>
+		<config>src/test/resources/aop.xml</config>
+		<config>src/test/resources/aop2.xml</config>
+		<config>src/main/resources/springframework/doc/weave.xml</config>
+		<config>src/test/resources/utils.xml</config>
+	</configs>
+	<autoconfigs>
+	</autoconfigs>
+	<configSets>
+	</configSets>
+</beansProjectDescription>
